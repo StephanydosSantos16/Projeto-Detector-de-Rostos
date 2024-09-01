@@ -102,21 +102,21 @@ class CapturadorDeFotos:
                     face_img = frame[y:y+h, x:x+w]
                     gray_face = cv2.cvtColor(face_img, cv2.COLOR_BGR2GRAY)
                     
-                    # Carregar fotos do banco de dados
+                 
                     fotos_cadastradas = self.banco_de_dados.obter_fotos()
                     nomes = [foto[0] for foto in fotos_cadastradas]
                     fotos = [np.array(cv2.imdecode(np.frombuffer(foto[1], np.uint8), cv2.IMREAD_GRAYSCALE)) for foto in fotos_cadastradas]
 
                     if fotos:
-                        # Treinar o classificador com as fotos cadastradas
+                       
                         ids = list(range(len(fotos)))
                         self.classificador.train(fotos, np.array(ids))
                         
-                        # Identificar o rosto
+                      
                         label, confidence = self.classificador.predict(gray_face)
                         
-                        # Ajustar o limite de confiança
-                        if confidence < 100:  # Limite baixo para demonstração, ajuste conforme necessário
+                       
+                        if confidence < 100:  
                             nome_identificado = nomes[label]
                             cv2.putText(frame, f'Identificado: {nome_identificado}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2, cv2.LINE_AA)
                         else:
